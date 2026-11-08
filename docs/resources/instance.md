@@ -10,7 +10,7 @@ resource "qdivzero_instance" "model" {
   name                         = "example-model"
   huggingface_repo_id          = "Qwen/Qwen3.5-9B"
   scheduling_mode              = "smart"
-  smart_region                 = "Europe"
+  smart_regions                = ["Europe"]
   smart_max_price_per_hour_eur = 0.75
   smart_allow_spot             = true
   smart_allow_community        = true
@@ -29,7 +29,9 @@ resource "qdivzero_instance" "model" {
 - `scheduling_mode`: `smart` by default; may be set to `manual`.
 - `gpu_preferences`: list of objects with `public_gpu_id` and `count`.
   Discover public IDs with `data.qdivzero_gpus`.
-- `smart_region`, `smart_regions`, `smart_max_price_per_hour_eur`,
+- `smart_regions` is a list of allowed regions. `smart_region` accepts one
+  preferred region.
+- `smart_max_price_per_hour_eur`,
   `smart_min_gpu_class`, `smart_min_total_tflops`, `smart_allow_spot`,
   `smart_allow_community`, `smart_provider_preference`,
   `smart_provider_filter_mode`, and `smart_selection_label`: Smart scheduler

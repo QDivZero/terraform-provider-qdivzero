@@ -23,7 +23,7 @@ resource "qdivzero_instance" "model" {
   name                         = "example-model"
   huggingface_repo_id          = var.huggingface_repo_id
   scheduling_mode              = "smart"
-  smart_region                 = "Europe"
+  smart_regions                = ["Europe"]
   smart_max_price_per_hour_eur = 0.75
   smart_allow_community        = true
   smart_allow_spot             = true
