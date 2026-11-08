@@ -15,7 +15,7 @@ variable "huggingface_repo_id" {
 resource "qdivzero_instance" "always_running" {
   name                         = "always-running"
   huggingface_repo_id          = var.huggingface_repo_id
-  smart_region                 = "Europe"
+  smart_regions                = ["Europe"]
   smart_max_price_per_hour_eur = 1.00
   smart_allow_community        = true
   smart_allow_spot             = false

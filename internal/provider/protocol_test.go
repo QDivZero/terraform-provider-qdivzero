@@ -52,8 +52,11 @@ func TestProviderProtocolWithMockAPI(t *testing.T) {
 			if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 				t.Error(err)
 			}
-			if body["scheduling_mode"] != "smart" || body["smart_region"] != "Europe" || body["smart_max_price_per_hour_eur"] != 0.5 || body["smart_allow_spot"] != true || body["smart_allow_community"] != true || body["serverless_enabled"] != true || body["workload_kind"] != "decision" {
+			if body["scheduling_mode"] != "smart" || body["smart_max_price_per_hour_eur"] != 0.5 || body["smart_allow_spot"] != true || body["smart_allow_community"] != true || body["serverless_enabled"] != true || body["workload_kind"] != "decision" {
 				t.Errorf("unexpected Smart configuration: %#v", body)
+			}
+			if regions, ok := body["smart_regions"].([]any); !ok || len(regions) != 2 || regions[0] != "Europe" || regions[1] != "North America" {
+				t.Errorf("unexpected Smart regions: %#v", body["smart_regions"])
 			}
 			if preferences, ok := body["gpu_preferences"].([]any); !ok || len(preferences) != 1 {
 				t.Errorf("missing GPU preferences: %#v", body)
@@ -107,7 +110,7 @@ func TestProviderProtocolWithMockAPI(t *testing.T) {
 	}
 	instanceFields["name"] = tftypes.NewValue(tftypes.String, "example")
 	instanceFields["huggingface_repo_id"] = tftypes.NewValue(tftypes.String, "org/model")
-	instanceFields["smart_region"] = tftypes.NewValue(tftypes.String, "Europe")
+	instanceFields["smart_regions"] = tftypes.NewValue(tftypes.List{ElementType: tftypes.String}, []tftypes.Value{tftypes.NewValue(tftypes.String, "Europe"), tftypes.NewValue(tftypes.String, "North America")})
 	instanceFields["smart_max_price_per_hour_eur"] = tftypes.NewValue(tftypes.Number, 0.5)
 	instanceFields["smart_allow_spot"] = tftypes.NewValue(tftypes.Bool, true)
 	instanceFields["smart_allow_community"] = tftypes.NewValue(tftypes.Bool, true)
