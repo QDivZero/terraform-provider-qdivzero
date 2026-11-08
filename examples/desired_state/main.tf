@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     qdivzero = {
-      source = "valendra/qdivzero"
+      source = "qdivzero/qdivzero"
     }
   }
 }

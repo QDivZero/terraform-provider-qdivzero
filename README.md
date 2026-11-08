@@ -32,7 +32,7 @@ are `QDIVZERO_API_URL`, `QDIVZERO_ACCOUNT_ID`, and
 terraform {
   required_providers {
     qdivzero = {
-      source = "valendra/qdivzero"
+      source = "qdivzero/qdivzero"
     }
   }
 }
@@ -62,23 +62,17 @@ to the **absolute path** of that `bin` directory:
 ```hcl
 provider_installation {
   dev_overrides {
-    "registry.terraform.io/valendra/qdivzero" = "/absolute/path/to/terraform-provider-qdivzero/bin"
+    "registry.terraform.io/qdivzero/qdivzero" = "/absolute/path/to/terraform-provider-qdivzero/bin"
   }
   direct {}
 }
 ```
 
 With a development override, operational commands use the local binary.
-Initialization still attempts to select a published provider version, so it
-cannot fetch this unpublished provider from the public registry.
+Initialization still attempts to select a published provider version.
 
-The public Terraform Registry requires a public repository named
-`terraform-provider-qdivzero`; this provider is not currently published there.
-Local development overrides or a separately configured private distribution are
-therefore required.
-Public Registry namespaces match the publishing GitHub account: publishing as
-`valendra/qdivzero` requires a qualifying repository owned by the GitHub account
-`valendra`, rather than the current `QDivZero` repository owner.
+The public Terraform Registry provider is
+[`QDivZero/qdivzero`](https://registry.terraform.io/providers/QDivZero/qdivzero).
 
 ## Development checks
 
@@ -91,3 +85,28 @@ go build ./...
 
 Tests use mock HTTP servers and the provider protocol directly; they do not
 invoke Terraform or create live infrastructure.
+
+## Signed releases
+
+GitHub Actions builds and publishes a signed GitHub Release when a semantic
+version tag such as `v0.1.0` is pushed. GoReleaser creates provider ZIP archives
+for Linux, macOS, and Windows, a protocol 6 Registry manifest, SHA-256 checksums,
+and a detached GPG signature for the checksums.
+
+Configure the repository's Actions secrets before creating a release:
+
+- `GPG_PRIVATE_KEY`: ASCII-armored private signing key corresponding to the
+  public key registered in Terraform Registry.
+- `PASSPHRASE`: passphrase for that signing key.
+
+For example, from a trusted terminal in this checkout with the key unlocked,
+provide the key directly to GitHub without writing it into the repository:
+
+```sh
+gpg --armor --export-secret-keys "<signing-key-fingerprint>" | \
+  gh secret set GPG_PRIVATE_KEY
+gh secret set PASSPHRASE
+```
+
+The second command prompts for the secret value. Register the corresponding
+**public** key in Terraform Registry.
