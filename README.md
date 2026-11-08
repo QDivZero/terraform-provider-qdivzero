@@ -32,7 +32,7 @@ are `QDIVZERO_API_URL`, `QDIVZERO_ACCOUNT_ID`, and
 terraform {
   required_providers {
     qdivzero = {
-      source = "qdivzero/qdivzero"
+      source = "valendra/qdivzero"
     }
   }
 }
@@ -62,7 +62,7 @@ to the **absolute path** of that `bin` directory:
 ```hcl
 provider_installation {
   dev_overrides {
-    "registry.terraform.io/qdivzero/qdivzero" = "/absolute/path/to/qdivzero-terraform/bin"
+    "registry.terraform.io/valendra/qdivzero" = "/absolute/path/to/qdivzero-terraform/bin"
   }
   direct {}
 }
@@ -76,6 +76,9 @@ This repository is private and named `qdivzero-terraform`. The public Terraform
 Registry requires a public repository named `terraform-provider-qdivzero`; this
 repository is not currently published there. Local development overrides or a
 separately configured private distribution are therefore required.
+Public Registry namespaces match the publishing GitHub account: publishing as
+`valendra/qdivzero` requires a qualifying repository owned by the GitHub account
+`valendra`, rather than the current `QDivZero` repository owner.
 
 ## Development checks
 

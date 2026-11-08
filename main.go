@@ -15,7 +15,7 @@ func main() {
 	debug := flag.Bool("debug", false, "enable provider debugging")
 	flag.Parse()
 	if err := providerserver.Serve(context.Background(), provider.New(version), providerserver.ServeOpts{
-		Address: "registry.terraform.io/qdivzero/qdivzero",
+		Address: "registry.terraform.io/valendra/qdivzero",
 		Debug:   *debug,
 	}); err != nil {
 		log.Fatal(err)
