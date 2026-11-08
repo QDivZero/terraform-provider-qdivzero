@@ -1,0 +1,6 @@
+/bin/
+/terraform-provider-qdivzero
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
